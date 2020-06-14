@@ -11,6 +11,8 @@ app.use(express.static("public"));
 let characters = "_";
 characters = characters.repeat(100);
 
+let re = /^[a-zA-Z_ ]+$/;
+
 app.get("/", (req, res) => {
   res.render("index");
 });
@@ -18,9 +20,12 @@ app.get("/", (req, res) => {
 io.on("connection", (socket) => {
   io.emit("chat message", characters);
   socket.on("chat message", (msg) => {
-    characters += msg;
-    if (characters.length > 100) characters = characters.substr(1);
-    io.emit("chat message", characters);
+    if (msg.length == 1 && re.test(msg)) {
+      msg = msg == " " ? "_" : msg.toUpperCase();
+      characters += msg;
+      if (characters.length > 100) characters = characters.substr(1);
+      io.emit("chat message", characters);
+    }
   });
 });
 
