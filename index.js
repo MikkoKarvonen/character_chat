@@ -11,6 +11,8 @@ app.use(express.static("public"));
 let characters = "_";
 characters = characters.repeat(100);
 
+let curOnline = 0;
+
 let re = /^[a-zA-Z_ ]+$/;
 
 app.get("/", (req, res) => {
@@ -19,6 +21,12 @@ app.get("/", (req, res) => {
 
 io.on("connection", (socket) => {
   io.emit("chat message", characters);
+  curOnline++;
+  io.emit("currently online", curOnline);
+  socket.on("disconnect", () => {
+    curOnline--;
+    io.emit("currently online", curOnline);
+  });
   socket.on("chat message", (msg) => {
     if (msg.length == 1 && re.test(msg)) {
       msg = msg == " " ? "_" : msg.toUpperCase();

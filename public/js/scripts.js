@@ -15,6 +15,10 @@ socket.on("chat message", function (msg) {
   }
 });
 
+socket.on("currently online", function (msg) {
+  $("#curOnline").html(msg);
+});
+
 function empty() {
   $("#m").val("");
 }
