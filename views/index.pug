@@ -1,0 +1,12 @@
+doctype html
+html
+  head
+    title Character Chat
+    script(src='/socket.io/socket.io.js')
+    script(src='/js/jquery-3.5.1.min.js')
+  body
+    #messages
+    form
+      input#m(autocomplete="off", onkeypress="addLetter()", onkeyup="empty()" )
+      button Send
+script(src='/js/scripts.js')
