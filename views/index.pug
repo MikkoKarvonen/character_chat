@@ -2,14 +2,29 @@ doctype html
 html
   head
     title Character Chat
+    link(rel='stylesheet', href='/css/98.css')
     link(rel='stylesheet', href='/css/styles.css')
     script(src='/socket.io/socket.io.js')
     script(src='/js/jquery-3.5.1.min.js')
   body
-    #chatBox
-        #messages
-        form
+    .title-bar
+        .title-bar-text Currently online: 
+          span#curOnline
+    .title-bar
+        .title-bar-text Characters typed in this session: 
+          span#totalTyped
+    div#chatBox
+      .window
+        .title-bar
+          .title-bar-text Character chat
+          .title-bar-controls
+            button(aria-label="Minimize")
+            button(aria-label="Maximize")
+            button(aria-label="Close")
+        .window-body
+          #messages
+    form#input
+      .field-row
+        label
         input#m(autocomplete="off", onkeypress="addLetter()", onkeyup="empty()" )
-    p Currently online: 
-        span#curOnline
 script(src='/js/scripts.js')

@@ -12,6 +12,7 @@ let characters = "_";
 characters = characters.repeat(100);
 
 let curOnline = 0;
+let totalTyped = 0;
 
 let re = /^[a-zA-Z_ ]+$/;
 
@@ -20,7 +21,7 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  io.emit("chat message", characters);
+  io.emit("chat message", characters, totalTyped);
   curOnline++;
   io.emit("currently online", curOnline);
   socket.on("disconnect", () => {
@@ -31,8 +32,9 @@ io.on("connection", (socket) => {
     if (msg.length == 1 && re.test(msg)) {
       msg = msg == " " ? "_" : msg.toUpperCase();
       characters += msg;
+      totalTyped++;
       if (characters.length > 100) characters = characters.substr(1);
-      io.emit("chat message", characters);
+      io.emit("chat message", characters, totalTyped);
     }
   });
 });
